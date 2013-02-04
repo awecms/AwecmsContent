@@ -1,26 +1,17 @@
 <?php
 App::uses('CmsAppController', 'Cms.Controller');
+App::uses('String', 'Utility');
 /**
  * Pages Controller
  *
  * @property Page $Page
  */
-class PagesController extends CmsAppController {
-	
-	public function beforeFilter() {
-		parent::beforeFilter();
-		if (!isset($this->params['prefix'])) {
-			$this->Auth->allowedActions[] = 'display';
-		}
-	}
+class CmsPagesController extends CmsAppController {
 
-/**
- * Displays a view
- *
- * @param mixed What page to display
- * @return void
- */
-	public function display($type = 'index', $slug = null) {
+	public $uses = array('Page', 'PageType');
+	
+	public function view($type = 'index', $slug = null) {
+		$this->Page->recursive = -1;
 		if (empty($slug)) {
 			$slug = $type;
 			$type = null;
@@ -50,29 +41,50 @@ class PagesController extends CmsAppController {
 		$this->set('meta_description', $page['Page']['meta_description']);
 		$this->set('page', $page);
 		
-		$renderViews = array();
+		$overrideViews = array();
 		if ($page['Page']['type']) {
-			$renderViews[] = $page['Page']['type'] . '/' . $slug;
-			$renderViews[] = $page['Page']['type'];
+			$overrideViews[] = $page['Page']['type'] . '/' . $slug;
+			$overrideViews[] = $page['Page']['type'];
 		} else {
-			$renderViews[] = $slug;
+			$overrideViews[] = $slug;
 		}
 		
-		$this->viewClass = 'Cms.Page';
-		$this->renderViews = $renderViews;
+		$this->viewClass = 'PieceOCake.Override';
+		$this->overrideViews = $overrideViews;
 	}
 	
 	public function index($type = null) {
-		$this->set('type', $type);
-		$this->set('pages', $this->Page->findAllByTypeAndIsActive($type, 1));
+		$this->Page->recursive = -1;
+		$this->PageType->recursive = -1;
 		
-		$renderViews = array();
-		if ($type) {
-			$renderViews[] = $type . '-index';
+		$pageType = $this->PageType->findBySlug($type);
+		if (empty($pageType)) {
+			throw new NotFoundException(__('Invalid page type'));
 		}
 		
-		$this->viewClass = 'Cms.Page';
-		$this->renderViews = $renderViews;
+		$pages = $this->Page->findAllByTypeAndIsActive($type, 1);
+		foreach ($pages as &$page) {
+			if (empty($page['Page']['preview'])) {
+				$page['Page']['preview'] = String::truncate(strip_tags($page['Page']['content']), Configure::read('Cms.Page.preview_truncate'));
+			}
+			if (empty($page['Page']['preview_image'])) {
+				$page['Page']['preview_image'] = $page['Page']['featured_image'];
+			}
+			$page['Page']['url'] = array('action' => 'view', $page['Page']['type'], $page['Page']['slug']);
+		}
+		
+		
+		$this->set('title_for_layout', $pageType['PageType']['name']);
+		$this->set('type', $type);
+		$this->set('pages', $pages);
+		
+		$overrideViews = array();
+		if ($type) {
+			$overrideViews[] = $type . '-index';
+		}
+		
+		$this->viewClass = 'PieceOCake.Override';
+		$this->overrideViews = $overrideViews;
 	}
 	
 /**
@@ -114,8 +126,11 @@ class PagesController extends CmsAppController {
 				$this->Session->setFlash(__('The page could not be saved. Please, try again.'));
 			}
 		}
-		$editor = Configure::read('Cms.editor');
-		$this->helpers['Editor'] = array('className' => $editor);
+		$types = $this->PageType->find('list', array('fields' => array('PageType.slug', 'PageType.name'), 'conditions' => array('PageType.is_active' => 1)));
+		$this->set('types', $types);
+		
+		$this->helpers[] = 'PieceOCake.Editor';
+		$this->helpers[] = 'PieceOCake.FileManager';
 	}
 
 /**
@@ -139,8 +154,11 @@ class PagesController extends CmsAppController {
 		} else {
 			$this->request->data = $this->Page->read(null, $id);
 		}
-		$editor = Configure::read('Cms.editor');
-		$this->helpers['Editor'] = array('className' => $editor);
+		$types = $this->PageType->find('list', array('fields' => array('PageType.slug', 'PageType.name'), 'conditions' => array('PageType.is_active' => 1)));
+		$this->set('types', $types);
+		
+		$this->helpers[] = 'PieceOCake.Editor';
+		$this->helpers[] = 'PieceOCake.FileManager';
 	}
 
 /**

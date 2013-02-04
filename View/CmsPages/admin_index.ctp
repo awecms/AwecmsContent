@@ -43,6 +43,7 @@
 		<h3><?php echo __('Actions'); ?></h3>
 		<ul>
 			<li><?php echo $this->Html->link(__('New Page'), array('action' => 'add')); ?></li>
+			<li><?php echo $this->Html->link(__('List Page Types'), array('controller' => 'page_types', 'action' => 'index')); ?></li>
 		</ul>
 	</div>
 <?php endif; ?>
