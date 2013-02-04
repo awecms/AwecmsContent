@@ -39,7 +39,7 @@ class Page extends CmsAppModel {
 				$results['Page']['content'] = $this->_fixRelativeUrls($results['Page']['content']);
 			} else if (isset($results[0])) {
 				foreach ($results as &$result) {
-					if (isset($result['Page'])) {
+					if (isset($result['Page']['content'])) {
 						$result['Page']['content'] = $this->_fixRelativeUrls($result['Page']['content']);
 					}
 				}
