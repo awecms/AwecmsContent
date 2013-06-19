@@ -1,12 +1,12 @@
 <?php
-App::uses('CmsAppController', 'Cms.Controller');
+App::uses('AwecmsContentAppController', 'AwecmsContent.Controller');
 App::uses('String', 'Utility');
 /**
  * Pages Controller
  *
  * @property Page $Page
  */
-class CmsPagesController extends CmsAppController {
+class CmsPagesController extends AwecmsContentAppController {
 
 	public $uses = array('Page', 'PageType');
 	
@@ -36,9 +36,10 @@ class CmsPagesController extends CmsAppController {
 			$this->set('pages', $this->Page->findAllByTypeAndIsActive($type, 1));
 		}
 		
-		$this->set('title_for_layout', !empty($page['Page']['meta_title']) ? $page['Page']['meta_title'] : $page['Page']['title']);
-		$this->set('meta_keywords', $page['Page']['meta_keywords']);
-		$this->set('meta_description', $page['Page']['meta_description']);
+		$this->set('title_for_layout', $page['Page']['title']);
+		//$this->set('title_for_layout', !empty($page['Page']['meta_title']) ? $page['Page']['meta_title'] : $page['Page']['title']);
+		//$this->set('meta_keywords', $page['Page']['meta_keywords']);
+		//$this->set('meta_description', $page['Page']['meta_description']);
 		$this->set('page', $page);
 		
 		$overrideViews = array();
@@ -49,7 +50,7 @@ class CmsPagesController extends CmsAppController {
 			$overrideViews[] = $slug;
 		}
 		
-		$this->viewClass = 'PieceOCake.Override';
+		$this->viewClass = 'Awecms.Override';
 		$this->overrideViews = $overrideViews;
 	}
 	
@@ -65,7 +66,7 @@ class CmsPagesController extends CmsAppController {
 		$pages = $this->Page->findAllByTypeAndIsActive($type, 1);
 		foreach ($pages as &$page) {
 			if (empty($page['Page']['preview'])) {
-				$page['Page']['preview'] = String::truncate(strip_tags($page['Page']['content']), Configure::read('Cms.Page.preview_truncate'));
+				$page['Page']['preview'] = String::truncate(strip_tags($page['Page']['content']), Configure::read('AwecmsContent.Page.preview_truncate'));
 			}
 			if (empty($page['Page']['preview_image'])) {
 				$page['Page']['preview_image'] = $page['Page']['featured_image'];
@@ -83,7 +84,7 @@ class CmsPagesController extends CmsAppController {
 			$overrideViews[] = $type . '-index';
 		}
 		
-		$this->viewClass = 'PieceOCake.Override';
+		$this->viewClass = 'Awecms.Override';
 		$this->overrideViews = $overrideViews;
 	}
 	
@@ -129,8 +130,8 @@ class CmsPagesController extends CmsAppController {
 		$types = $this->PageType->find('list', array('fields' => array('PageType.slug', 'PageType.name'), 'conditions' => array('PageType.is_active' => 1)));
 		$this->set('types', $types);
 		
-		$this->helpers[] = 'PieceOCake.Editor';
-		$this->helpers[] = 'PieceOCake.FileManager';
+		$this->helpers[] = 'Awecms.Editor';
+		$this->helpers[] = 'Awecms.FileManager';
 	}
 
 /**
@@ -157,8 +158,8 @@ class CmsPagesController extends CmsAppController {
 		$types = $this->PageType->find('list', array('fields' => array('PageType.slug', 'PageType.name'), 'conditions' => array('PageType.is_active' => 1)));
 		$this->set('types', $types);
 		
-		$this->helpers[] = 'PieceOCake.Editor';
-		$this->helpers[] = 'PieceOCake.FileManager';
+		$this->helpers[] = 'Awecms.Editor';
+		$this->helpers[] = 'Awecms.FileManager';
 	}
 
 /**

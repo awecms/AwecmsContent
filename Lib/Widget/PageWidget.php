@@ -1,6 +1,6 @@
 <?php
 
-App::uses('BaseWidget', 'PieceOCake.Widget');
+App::uses('BaseWidget', 'Awecms.Widget');
 
 class PageWidget extends BaseWidget {
 
@@ -8,10 +8,10 @@ class PageWidget extends BaseWidget {
 
 	public function __construct($widget) {
 		parent::__construct($widget);
-		$this->Page = ClassRegistry::init('Cms.Page');
+		$this->Page = ClassRegistry::init('AwecmsContent.Page');
 		$this->settings = $widget['data'];
 		if (empty($this->settings['element'])) {
-			$this->settings['element'] = 'Cms.page_widget';
+			$this->settings['element'] = 'AwecmsContent.page_widget';
 		}
 		if (empty($this->settings['truncate']) && $this->settings['truncate'] !== 0) {
 			$this->settings['truncate'] = 100;

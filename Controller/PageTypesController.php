@@ -1,11 +1,11 @@
 <?php
-App::uses('CmsAppController', 'Cms.Controller');
+App::uses('AwecmsContentAppController', 'AwecmsContent.Controller');
 /**
  * PageTypes Controller
  *
  * @property PageType $PageType
  */
-class PageTypesController extends CmsAppController {
+class PageTypesController extends AwecmsContentAppController {
 
 /**
  * admin_index method

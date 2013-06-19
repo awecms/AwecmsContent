@@ -1,5 +1,5 @@
 <?php
-$this->extend('PieceOCake./Widgets/edit');
+$this->extend('Awecms./Widgets/edit');
 echo $this->Form->input('Widget.data.page_id');
 echo $this->Form->input('Widget.data.truncate');
 echo $this->Form->input('Widget.data.ellipsis');

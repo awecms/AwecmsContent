@@ -1,10 +1,10 @@
 <?php
 
-App::uses('WidgetsAppController', 'PieceOCake.Controller');
+App::uses('WidgetsAppController', 'Awecms.Controller');
 
 class PageMenuWidgetController extends WidgetsAppController {
 
-	public $uses = array('PieceOCake.Widget', 'Cms.PageType');
+	public $uses = array('Awecms.Widget', 'AwecmsContent.PageType');
 
 	public function admin_edit($id = null) {
 		$data = $this->_read($id);

@@ -1,6 +1,6 @@
 <?php
 
-App::uses('BaseWidget', 'PieceOCake.Widget');
+App::uses('BaseWidget', 'Awecms.Widget');
 
 class PageMenuWidget extends BaseWidget {
 
@@ -8,11 +8,11 @@ class PageMenuWidget extends BaseWidget {
 
 	public function __construct($widget) {
 		parent::__construct($widget);
-		$this->Page = ClassRegistry::init('Cms.Page');
-		//$this->PageType = ClassRegistry::init('Cms.PageType');
+		$this->Page = ClassRegistry::init('AwecmsContent.Page');
+		//$this->PageType = ClassRegistry::init('AwecmsContent.PageType');
 		$this->settings = $widget['data'];
 		if (empty($this->settings['element'])) {
-			$this->settings['element'] = 'Cms.page_menu_widget';
+			$this->settings['element'] = 'AwecmsContent.page_menu_widget';
 		}
 		if (empty($this->settings['type'])) {
 			$this->settings['type'] = null;
@@ -22,7 +22,7 @@ class PageMenuWidget extends BaseWidget {
 	public function getContent() {
 		$pages = $this->Page->findAllByTypeAndIsActive($this->settings['type'], 1);
 		foreach ($pages as &$page) {
-			$page['Page']['url'] = array('plugin' => 'cms', 'controller' => 'cms_pages', 'action' => 'view');
+			$page['Page']['url'] = array('plugin' => 'awecms_content', 'controller' => 'cms_pages', 'action' => 'view');
 			if (!empty($page['Page']['type'])) {
 				$page['Page']['url'][] = $page['Page']['type'];
 			}

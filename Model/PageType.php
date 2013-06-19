@@ -1,10 +1,10 @@
 <?php
-App::uses('CmsAppModel', 'Cms.Model');
+App::uses('AwecmsContentAppModel', 'AwecmsContent.Model');
 /**
  * PageType Model
  *
  */
-class PageType extends CmsAppModel {
+class PageType extends AwecmsContentAppModel {
 
 	public $order = 'PageType.order';
 

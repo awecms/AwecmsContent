@@ -1,5 +1,5 @@
 <?php 
-class CmsSchema extends CakeSchema {
+class AwecmsContentSchema extends CakeSchema {
 
 	public function before($event = array()) {
 		return true;

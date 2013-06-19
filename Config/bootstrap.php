@@ -1,4 +1,7 @@
 <?php
+
+CakePlugin::load('FineUploader', array('routes' => true));
+
 App::uses('CakeEventManager', 'Event');
-App::uses('CmsListener', 'Cms.Lib');
-CakeEventManager::instance()->attach(new CmsListener());
+App::uses('AwecmsContentListener', 'AwecmsContent.Lib');
+CakeEventManager::instance()->attach(new AwecmsContentListener());

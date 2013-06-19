@@ -1,5 +1,5 @@
 <?php
-App::uses('PageType', 'Cms.Model');
+App::uses('PageType', 'AwecmsContent.Model');
 
 /**
  * PageType Test Case
@@ -13,7 +13,7 @@ class PageTypeTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.cms.page_type'
+		'plugin.awecms_content.page_type'
 	);
 
 /**
@@ -23,7 +23,7 @@ class PageTypeTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->PageType = ClassRegistry::init('Cms.PageType');
+		$this->PageType = ClassRegistry::init('AwecmsContent.PageType');
 	}
 
 /**

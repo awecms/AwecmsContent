@@ -1,10 +1,11 @@
 <?php
-App::uses('CmsAppModel', 'Cms.Model');
+App::uses('AwecmsContentAppModel', 'AwecmsContent.Model');
+App::uses('String', 'Utility');
 /**
  * Page Model
  *
  */
-class Page extends CmsAppModel {
+class Page extends AwecmsContentAppModel {
 /**
  * Validation rules
  *
@@ -37,10 +38,12 @@ class Page extends CmsAppModel {
 		if (Router::url('/') != '/') {
 			if (isset($results['Page'])) {
 				$results['Page']['content'] = $this->_fixRelativeUrls($results['Page']['content']);
+				$this->_metaDescription($results['Page']);
 			} else if (isset($results[0])) {
 				foreach ($results as &$result) {
 					if (isset($result['Page']['content'])) {
 						$result['Page']['content'] = $this->_fixRelativeUrls($result['Page']['content']);
+						$this->_metaDescription($result['Page']);
 					}
 				}
 			}
@@ -61,6 +64,12 @@ class Page extends CmsAppModel {
 			return preg_replace('/\s(href|src)=(["\'])' . preg_quote($baseUrl, '/') . '(.*?)\2/i', ' $1=$2/$3$2', $html);
 		} else {
 			return preg_replace('/\s(href|src)=(["\'])\/(.*?)\2/i', ' $1=$2' . $baseUrl . '$3$2', $html);
+		}
+	}
+	
+	protected function _metaDescription(&$page) {
+		if (array_key_exists('content', $page) && array_key_exists('meta_description', $page) && empty($page['meta_description'])) {
+			$page['meta_description'] = String::truncate(strip_tags($page['content']), 160, array('exact' => false, 'ellipsis' => ''));
 		}
 	}
 }

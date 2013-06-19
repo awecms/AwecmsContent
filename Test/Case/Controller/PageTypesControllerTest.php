@@ -1,5 +1,5 @@
 <?php
-App::uses('PageTypesController', 'Cms.Controller');
+App::uses('PageTypesController', 'AwecmsContent.Controller');
 
 /**
  * PageTypesController Test Case
@@ -13,7 +13,7 @@ class PageTypesControllerTest extends ControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.cms.page_type'
+		'plugin.awecms_content.page_type'
 	);
 
 /**
