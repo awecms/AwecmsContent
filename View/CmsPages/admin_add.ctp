@@ -2,7 +2,7 @@
 	$this->assign('title', __d('awecms_content', 'Pages'));
 	$this->assign('class', 'form');
 ?>
-<?php echo $this->Form->create('Page', array('class' => 'form-horizontal'));?>
+<?php echo $this->Form->create('Page', array('layout' => 'horizontal'));?>
 <fieldset>
 	<legend><?php echo __d('awecms_content', 'New Page'); ?></legend>
 	<?php
