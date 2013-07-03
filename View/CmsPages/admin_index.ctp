@@ -31,7 +31,7 @@
 						'<i class="icon-remove"></i> ' . __d('awecms', 'Delete'),
 						array('action' => 'delete', $page['Page']['id']),
 						array('escape' => false, 'class' => 'btn btn-small btn-danger'),
-						__d('awecms', 'Are you sure you want to delete # %s?', $page['Page']['id'])
+						__d('awecms', 'Are you sure you want to delete \'%s\'?', $page['Page']['title'])
 					);
 				?>
 			</td>
