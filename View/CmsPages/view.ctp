@@ -1,5 +1,7 @@
-<?php $this->append('cssClass', ' page-view'); ?>
-<h1><?php echo h($page['Page']['title']); ?></h1>
+<?php
+$this->append('cssClass', ' page-view');
+$this->assign('title', $page['Page']['title']);
+?>
 <?php if (!empty($page['Page']['featured_image'])): ?>
 	<?php echo $this->Html->image($page['Page']['featured_image'], array('class' => 'page-image-featured', 'alt' => $page['Page']['title'])); ?>
 <?php endif; ?>
