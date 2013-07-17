@@ -1,5 +1,5 @@
 <?php
-$this->append('cssClass', ' page-view');
+$this->append('class', ' page-view');
 $this->assign('title', $page['Page']['title']);
 ?>
 <?php if (!empty($page['Page']['featured_image'])): ?>

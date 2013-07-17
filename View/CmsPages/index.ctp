@@ -1,4 +1,4 @@
-<?php $this->append('cssClass', ' page-index'); ?>
+<?php $this->append('class', ' page-index'); ?>
 <?php foreach ($pages as $page): ?>
 	<article>
 		<h1><?php echo h($page['Page']['title']); ?></h1>
